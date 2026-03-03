@@ -296,7 +296,12 @@ const periodOptions = [
 const dbTeachers = ref({}) 
 const dbSchedules = ref([])
 
-onMounted(() => { loadScheduleData() })
+onMounted(() => { 
+  loadScheduleData() 
+  
+  // 背景觸發訪客紀錄 API (使用 POST 且忽略錯誤，避免影響使用者體驗)
+  fetch('/api/log', { method: 'POST' }).catch(() => {})
+})
 
 const loadScheduleData = async () => {
   statusMessage.value = '載入中...'
