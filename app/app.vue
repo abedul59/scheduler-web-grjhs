@@ -6,7 +6,7 @@
         <div>
           <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            歸仁國中排課系統
+            新化國中排課系統
           </h1>
           <p class="text-indigo-200 text-sm mt-1 flex items-center gap-1">
             <span class="inline-block w-2 h-2 rounded-full bg-green-400"></span>
@@ -14,8 +14,8 @@
           </p>
         </div>
         <div class="flex w-full sm:w-auto gap-2">
-          <button @click="triggerJsonInput" class="flex-1 sm:flex-none px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg text-sm font-medium transition-colors shadow">
-            上傳 JSON 課表
+          <button @click="triggerJsonInput" class="flex-1 sm:flex-none px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg text-sm font-medium transition-colors">
+            手動匯入
           </button>
           <input type="file" ref="jsonInput" class="hidden" accept=".json" @change="importJson" />
           <button @click="loadScheduleData" class="flex-1 sm:flex-none px-4 py-2 bg-white text-indigo-600 hover:bg-indigo-50 rounded-lg text-sm font-bold shadow transition-colors">
@@ -51,15 +51,15 @@
             <table class="w-full min-w-[600px] text-center border-collapse">
               <thead class="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th class="py-2 px-3 w-20 border-r border-gray-200 text-gray-500 font-medium">節次</th>
-                  <th v-for="d in daysOptions" :key="d.val" class="py-2 px-3 border-r border-gray-200 font-medium">{{ d.label }}</th>
+                  <th class="py-2 px-3 w-16 border-r border-gray-200 text-gray-500 font-medium">節次</th>
+                  <th v-for="d in daysOptions" :key="d" class="py-2 px-3 border-r border-gray-200 font-medium">{{ d.label }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="pOpt in periodOptions" :key="pOpt.val" class="border-b border-gray-200 last:border-0">
-                  <td class="bg-gray-50 border-r border-gray-200 py-3 text-gray-600 font-medium text-sm">{{ pOpt.label }}</td>
-                  <td v-for="d in 5" :key="d" class="border-r border-gray-200 p-2 h-16 sm:h-20 align-middle transition-colors" :class="getTeacherCell(d, pOpt.val) ? 'bg-indigo-50/70 hover:bg-indigo-100/80' : 'bg-white'">
-                    <div class="whitespace-pre-line text-sm sm:text-base text-gray-800 leading-tight">{{ getTeacherCell(d, pOpt.val) }}</div>
+                <tr v-for="p in 8" :key="p" class="border-b border-gray-200 last:border-0">
+                  <td class="bg-gray-50 border-r border-gray-200 py-3 text-gray-600 font-medium">{{ p }}</td>
+                  <td v-for="d in 5" :key="d" class="border-r border-gray-200 p-2 h-16 sm:h-20 align-middle transition-colors" :class="getTeacherCell(d, p) ? 'bg-indigo-50/70 hover:bg-indigo-100/80' : 'bg-white'">
+                    <div class="whitespace-pre-line text-sm sm:text-base text-gray-800 leading-tight">{{ getTeacherCell(d, p) }}</div>
                   </td>
                 </tr>
               </tbody>
@@ -78,15 +78,15 @@
             <table class="w-full min-w-[600px] text-center border-collapse">
               <thead class="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th class="py-2 px-3 w-20 border-r border-gray-200 text-gray-500 font-medium">節次</th>
-                  <th v-for="d in daysOptions" :key="d.val" class="py-2 px-3 border-r border-gray-200 font-medium">{{ d.label }}</th>
+                  <th class="py-2 px-3 w-16 border-r border-gray-200 text-gray-500 font-medium">節次</th>
+                  <th v-for="d in daysOptions" :key="d" class="py-2 px-3 border-r border-gray-200 font-medium">{{ d.label }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="pOpt in periodOptions" :key="pOpt.val" class="border-b border-gray-200 last:border-0">
-                  <td class="bg-gray-50 border-r border-gray-200 py-3 text-gray-600 font-medium text-sm">{{ pOpt.label }}</td>
-                  <td v-for="d in 5" :key="d" class="border-r border-gray-200 p-2 h-16 sm:h-20 align-middle transition-colors" :class="getClassCell(d, pOpt.val) ? 'bg-amber-50/70 hover:bg-amber-100/80' : 'bg-white'">
-                    <div class="whitespace-pre-line text-sm sm:text-base text-gray-800 leading-tight">{{ getClassCell(d, pOpt.val) }}</div>
+                <tr v-for="p in 8" :key="p" class="border-b border-gray-200 last:border-0">
+                  <td class="bg-gray-50 border-r border-gray-200 py-3 text-gray-600 font-medium">{{ p }}</td>
+                  <td v-for="d in 5" :key="d" class="border-r border-gray-200 p-2 h-16 sm:h-20 align-middle transition-colors" :class="getClassCell(d, p) ? 'bg-amber-50/70 hover:bg-amber-100/80' : 'bg-white'">
+                    <div class="whitespace-pre-line text-sm sm:text-base text-gray-800 leading-tight">{{ getClassCell(d, p) }}</div>
                   </td>
                 </tr>
               </tbody>
@@ -98,11 +98,11 @@
           <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4 flex flex-col sm:flex-row gap-4">
             <div class="flex-1 flex flex-col">
               <label class="text-xs text-gray-500 mb-1">星期</label>
-              <select v-model="searchDay" class="form-select w-full"><option v-for="d in daysOptions" :key="d.val" :value="d.val">星期{{ d.label }}</option></select>
+              <select v-model="searchDay" class="form-select w-full"><option v-for="d in daysOptions" :value="d.val">星期{{ d.label }}</option></select>
             </div>
             <div class="flex-1 flex flex-col">
               <label class="text-xs text-gray-500 mb-1">節次</label>
-              <select v-model="searchPeriod" class="form-select w-full"><option v-for="p in periodOptions" :key="p.val" :value="p.val">{{ p.label }}</option></select>
+              <select v-model="searchPeriod" class="form-select w-full"><option v-for="p in 8" :value="p">第 {{ p }} 節</option></select>
             </div>
           </div>
           <div class="overflow-x-auto ring-1 ring-gray-200 rounded-lg">
@@ -115,7 +115,7 @@
                   <td class="p-3 text-gray-900 font-medium">{{ t.name }}</td>
                   <td class="p-3 text-gray-600">{{ t.title }}</td>
                   <td class="p-3 text-gray-600">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">{{ t.base_load || '-' }}</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">{{ t.base_load }}</span>
                   </td>
                 </tr>
                 <tr v-if="freeTeachers.length === 0">
@@ -130,11 +130,11 @@
           <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4 flex flex-col sm:flex-row gap-4">
             <div class="flex-1 flex flex-col">
               <label class="text-xs text-gray-500 mb-1">星期</label>
-              <select v-model="searchDay" class="form-select w-full"><option v-for="d in daysOptions" :key="d.val" :value="d.val">星期{{ d.label }}</option></select>
+              <select v-model="searchDay" class="form-select w-full"><option v-for="d in daysOptions" :value="d.val">星期{{ d.label }}</option></select>
             </div>
             <div class="flex-1 flex flex-col">
               <label class="text-xs text-gray-500 mb-1">節次</label>
-              <select v-model="searchPeriod" class="form-select w-full"><option v-for="p in periodOptions" :key="p.val" :value="p.val">{{ p.label }}</option></select>
+              <select v-model="searchPeriod" class="form-select w-full"><option v-for="p in 8" :value="p">第 {{ p }} 節</option></select>
             </div>
           </div>
           <div class="overflow-x-auto ring-1 ring-gray-200 rounded-lg">
@@ -165,7 +165,7 @@
               <thead class="bg-gray-50 border-b border-gray-200 text-sm text-gray-600">
                 <tr>
                   <th class="p-3 font-medium text-left sticky left-0 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb]">教師姓名</th>
-                  <th v-for="d in daysOptions" :key="d.val" class="p-3 font-medium">{{ d.label }}</th>
+                  <th v-for="d in daysOptions" :key="d" class="p-3 font-medium">{{ d.label }}</th>
                   <th class="p-3 font-bold text-indigo-600">總計</th>
                 </tr>
               </thead>
@@ -193,19 +193,19 @@
               <div class="space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">發起老師 (A)</label>
-                  <select v-model="swapA" class="form-select w-full"><option v-for="name in teacherNames" :key="name" :value="name">{{ name }}</option></select>
+                  <select v-model="swapA" class="form-select w-full"><option v-for="name in teacherNames" :value="name">{{ name }}</option></select>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3">
                   <div class="col-span-2 text-sm font-bold text-gray-600 mt-2">原時段 <span class="text-xs font-normal text-red-500">(A有課的時段)</span></div>
-                  <select v-model="swapSrcDay" class="form-select w-full"><option v-for="d in daysOptions" :key="d.val" :value="d.val">星期{{ d.label }}</option></select>
-                  <select v-model="swapSrcPeriod" class="form-select w-full"><option v-for="p in periodOptions" :key="p.val" :value="p.val">{{ p.label }}</option></select>
+                  <select v-model="swapSrcDay" class="form-select w-full"><option v-for="d in daysOptions" :value="d.val">星期{{ d.label }}</option></select>
+                  <select v-model="swapSrcPeriod" class="form-select w-full"><option v-for="p in 8" :value="p">第{{ p }}節</option></select>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3">
                   <div class="col-span-2 text-sm font-bold text-gray-600 mt-2">目標時段 <span class="text-xs font-normal text-green-600">(A目前的空堂)</span></div>
-                  <select v-model="swapDstDay" class="form-select w-full"><option v-for="d in daysOptions" :key="d.val" :value="d.val">星期{{ d.label }}</option></select>
-                  <select v-model="swapDstPeriod" class="form-select w-full"><option v-for="p in periodOptions" :key="p.val" :value="p.val">{{ p.label }}</option></select>
+                  <select v-model="swapDstDay" class="form-select w-full"><option v-for="d in daysOptions" :value="d.val">星期{{ d.label }}</option></select>
+                  <select v-model="swapDstPeriod" class="form-select w-full"><option v-for="p in 8" :value="p">第{{ p }}節</option></select>
                 </div>
 
                 <button @click="findSwapCandidates" class="w-full mt-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-md transition-all active:scale-[0.98]">
@@ -273,24 +273,9 @@ const tabs = [
 ]
 const activeTab = ref('teacher')
 const statusMessage = ref('初始化中...')
-
 const daysOptions = [
   { val: 1, label: '一' }, { val: 2, label: '二' }, 
   { val: 3, label: '三' }, { val: 4, label: '四' }, { val: 5, label: '五' }
-]
-
-// 專為歸仁國中設計的節次陣列，支援早自習與第九節
-const periodOptions = [
-  { val: 0, label: '早自習' },
-  { val: 1, label: '第 1 節' },
-  { val: 2, label: '第 2 節' },
-  { val: 3, label: '第 3 節' },
-  { val: 4, label: '第 4 節' },
-  { val: 5, label: '第 5 節' },
-  { val: 6, label: '第 6 節' },
-  { val: 7, label: '第 7 節' },
-  { val: 8, label: '第 8 節' },
-  { val: 9, label: '第 9 節' }
 ]
 
 const dbTeachers = ref({}) 
@@ -310,7 +295,7 @@ const loadScheduleData = async () => {
     if (teacherNames.value.length > 0) selectedTeacher.value = teacherNames.value[0]
     if (classesList.value.length > 0) selectedClass.value = classesList.value[0]
   } catch (err) {
-    statusMessage.value = '目前無預設資料，請點擊「上傳 JSON 課表」匯入。'
+    statusMessage.value = '讀取失敗，請確認 public/data.json 是否存在！'
     console.error(err)
   }
 }
@@ -341,7 +326,6 @@ const getTeacherCell = (d, p) => {
   if (!selectedTeacher.value) return ""
   const course = dbSchedules.value.find(s => s.teacher === selectedTeacher.value && s.day === d && s.period === p)
   if (!course) return ""
-  // 處理有些解析結果 Grade 有帶 "年"，如果沒有的話就留空防呆
   return `${course.grade === 'Unknown' ? '' : course.grade}${course.class_name}\n${course.subject}`
 }
 
@@ -350,7 +334,6 @@ const classesList = computed(() => {
   dbSchedules.value.forEach(s => {
     if (s.grade && s.grade !== "Unknown" && s.class_name) clsSet.add(`${s.grade} ${s.class_name}`)
   })
-  // 以防有 1班 10班 排列問題，直接用原生 sort 處理字串
   return Array.from(clsSet).sort()
 })
 const selectedClass = ref('')
@@ -362,7 +345,6 @@ const getClassCell = (d, p) => {
   return `${course.subject}\n${course.teacher}`
 }
 
-// 預設選擇改為 "1" (第 1 節) 以免早自習變成預設
 const searchDay = ref(1)
 const searchPeriod = ref(1)
 const freeTeachers = computed(() => {
@@ -438,6 +420,7 @@ const executeSwap = () => {
 </script>
 
 <style scoped>
+/* 將原本客製化的 CSS 類別，用 Tailwind 的 @apply 轉化為現代風格 */
 .form-select {
   @apply border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow appearance-none cursor-pointer;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -447,6 +430,7 @@ const executeSwap = () => {
   padding-right: 2.5rem;
 }
 
+/* 隱藏捲軸但保留滑動功能 (用於手機版的 Tabs) */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -455,6 +439,7 @@ const executeSwap = () => {
   scrollbar-width: none;
 }
 
+/* 淡入動畫，讓切換 Tab 時有流暢感 */
 .animate-fade-in {
   animation: fadeIn 0.3s ease-in-out;
 }

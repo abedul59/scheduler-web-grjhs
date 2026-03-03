@@ -1,6 +1,9 @@
 export default defineNuxtConfig({
   modules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/supabase'
   ],
-  compatibilityDate: '2024-11-01',
+  supabase: {
+    redirect: false // 如果還沒做登入功能，先關閉自動導向
+  }
 })
